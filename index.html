@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#fff8f2">
-  <meta name="description" content="Um convite especial para comemorar os 11 anos da Agatha.">
-  <title>Agatha faz 11 anos!</title>
+  <meta name="description" content="Abra a carta e assista ao convite especial dos 11 anos da Agatha.">
+  <title>Uma carta para você — Agatha faz 11!</title>
   <link rel="preconnect" href="https://www.canva.com">
   <style>
     :root {
@@ -47,20 +47,107 @@
     }
     h1 span { color: var(--pink); }
     .intro {
-      margin: 16px 0 24px;
+      margin: 16px 0 30px;
       color: var(--muted);
       font-size: clamp(1rem, 3vw, 1.2rem);
       line-height: 1.55;
     }
-    .invite {
-      width: min(100%, 420px);
+    .envelope-stage {
+      min-height: 290px;
+      display: grid;
+      place-items: center;
+      perspective: 900px;
+    }
+    .envelope-button {
+      position: relative;
+      width: min(82vw, 360px);
+      height: 220px;
+      padding: 0;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      cursor: pointer;
+      filter: drop-shadow(0 18px 18px rgba(91, 45, 70, .18));
+      transition: transform .35s ease, opacity .35s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .envelope-button:hover { transform: translateY(-5px) rotate(-1deg); }
+    .envelope-button:focus-visible { outline: 3px solid var(--pink); outline-offset: 8px; border-radius: 18px; }
+    .envelope-back, .envelope-front, .envelope-flap {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+    }
+    .envelope-back { background: #efb8cf; }
+    .envelope-letter {
+      position: absolute;
+      z-index: 1;
+      left: 9%;
+      right: 9%;
+      top: 10%;
+      height: 79%;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 8px;
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: 0 2px 8px rgba(57, 38, 56, .08);
+      transition: transform .7s cubic-bezier(.2,.8,.2,1), top .7s ease;
+    }
+    .letter-star { color: var(--gold); font-size: 1.5rem; }
+    .letter-label { font-family: Georgia, serif; font-size: 1.15rem; font-style: italic; }
+    .envelope-front {
+      z-index: 2;
+      clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+      background: linear-gradient(145deg, #f7c9da, #e9a9c3);
+    }
+    .envelope-flap {
+      z-index: 3;
+      inset: 0 0 auto;
+      height: 65%;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      background: linear-gradient(160deg, #f9d9e5, #edb3ca);
+      transform-origin: top center;
+      transition: transform .6s ease, z-index 0s .3s;
+    }
+    .seal {
+      position: absolute;
+      z-index: 4;
+      left: 50%;
+      top: 56%;
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      transform: translate(-50%, -50%);
+      border: 2px solid rgba(255,255,255,.65);
+      border-radius: 50%;
+      color: white;
+      background: var(--pink);
+      font-size: 1.15rem;
+      box-shadow: 0 3px 8px rgba(142, 52, 95, .2);
+      transition: opacity .2s ease;
+    }
+    .envelope-hint {
+      margin: -7px 0 0;
+      color: var(--muted);
+      font-size: .95rem;
+      font-weight: 700;
+    }
+    .letter-content {
+      width: min(100%, 460px);
       margin: 0 auto;
-      padding: 10px;
+      padding: 14px;
       border: 1px solid rgba(90, 57, 77, .1);
       border-radius: 22px;
       background: var(--paper);
       box-shadow: 0 20px 60px rgba(98, 47, 78, .14);
+      animation: arrive .65s both;
     }
+    .letter-content[hidden] { display: none; }
+    .letter-content h2 { margin: 4px 0 12px; font-family: Georgia, serif; font-size: 1.55rem; font-weight: 500; }
     .frame {
       position: relative;
       width: 100%;
@@ -70,63 +157,86 @@
       border-radius: 15px;
       background: #f5e9ef;
     }
-    iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
+    iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .canva-link {
+      display: inline-block;
+      margin: 14px 0 2px;
+      color: #b52e6b;
+      font-weight: 700;
+      text-underline-offset: 3px;
     }
-    .open-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 48px;
-      margin-top: 20px;
-      padding: 0 22px;
-      border-radius: 999px;
-      color: white;
-      background: var(--pink);
-      box-shadow: 0 8px 20px rgba(233, 79, 145, .24);
-      font-weight: 750;
-      text-decoration: none;
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-    .open-link:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(233, 79, 145, .3); }
-    .open-link:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
     footer { margin-top: 24px; color: var(--muted); font-size: .88rem; }
     .sparkle { color: var(--gold); }
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(14px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .opened .envelope-button { transform: translateY(8px) scale(.88); opacity: 0; pointer-events: none; }
+    .opened .envelope-flap { z-index: 0; transform: rotateX(180deg); }
+    .opened .envelope-letter { top: -8%; transform: translateY(-35px); }
+    .opened .seal { opacity: 0; }
+    @media (max-width: 420px) {
+      body { padding: 26px 14px; }
+      .envelope-stage { min-height: 250px; }
+      .envelope-button { height: 190px; }
+    }
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
 <body>
-  <main>
-    <p class="eyebrow">Você está convidado</p>
+  <main id="invitation">
+    <p class="eyebrow">Uma surpresa especial</p>
     <h1>Agatha <span>faz 11!</span></h1>
-    <p class="intro">Uma comemoração muito especial está chegando.<br>Assista ao convite e venha celebrar com a gente!</p>
+    <p class="intro">Chegou uma cartinha para você.<br>Toque no envelope para abrir!</p>
 
-    <section class="invite" aria-label="Convite de aniversário em vídeo">
-      <div class="frame">
-        <iframe
-          src="https://www.canva.com/design/DAHadqhEqXU/ActWqtEeakzoJKZiqiRu-w/watch?embed"
-          title="Convite em vídeo: Agatha faz 11 anos"
-          loading="lazy"
-          allow="fullscreen"
-          allowfullscreen>
-        </iframe>
-      </div>
+    <section class="envelope-stage" id="envelopeStage" aria-label="Envelope fechado">
+      <button class="envelope-button" id="openLetter" type="button" aria-label="Abrir a carta da Agatha">
+        <span class="envelope-back" aria-hidden="true"></span>
+        <span class="envelope-letter" aria-hidden="true">
+          <span class="letter-star">✦</span>
+          <span class="letter-label">Para você, com carinho</span>
+          <span class="letter-star">✦</span>
+        </span>
+        <span class="envelope-front" aria-hidden="true"></span>
+        <span class="envelope-flap" aria-hidden="true"></span>
+        <span class="seal" aria-hidden="true">♥</span>
+      </button>
     </section>
+    <p class="envelope-hint" id="envelopeHint">Toque no envelope para abrir</p>
 
-    <a class="open-link"
-       href="https://www.canva.com/design/DAHadqhEqXU/ActWqtEeakzoJKZiqiRu-w/watch?utm_content=DAHadqhEqXU&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link"
-       target="_blank" rel="noopener noreferrer">
-      Abrir convite no Canva <span aria-hidden="true">↗</span>
-    </a>
+    <section class="letter-content" id="letterContent" aria-labelledby="letterTitle" hidden>
+      <h2 id="letterTitle">Um convite feito com carinho</h2>
+      <div class="frame" id="videoFrame"></div>
+      <a class="canva-link" href="https://www.canva.com/design/DAHadqhEqXU/ActWqtEeakzoJKZiqiRu-w/watch?utm_content=DAHadqhEqXU&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener noreferrer">Se o vídeo não começar, toque aqui para assistir no Canva</a>
+    </section>
 
     <footer><span class="sparkle" aria-hidden="true">✦</span> Feito com carinho por Adri Ribeiro <span class="sparkle" aria-hidden="true">✦</span></footer>
   </main>
+  <script>
+    const invitation = document.getElementById("invitation");
+    const openLetter = document.getElementById("openLetter");
+    const letterContent = document.getElementById("letterContent");
+    const videoFrame = document.getElementById("videoFrame");
+    const envelopeStage = document.getElementById("envelopeStage");
+    const envelopeHint = document.getElementById("envelopeHint");
+
+    openLetter.addEventListener("click", () => {
+      invitation.classList.add("opened");
+      envelopeStage.setAttribute("aria-hidden", "true");
+      envelopeHint.hidden = true;
+      letterContent.hidden = false;
+
+      const player = document.createElement("iframe");
+      player.src = "https://www.canva.com/design/DAHadqhEqXU/ActWqtEeakzoJKZiqiRu-w/watch?embed&autoplay=1";
+      player.title = "Convite em vídeo narrado: Agatha faz 11 anos";
+      player.allow = "autoplay; fullscreen";
+      player.allowFullscreen = true;
+      player.loading = "eager";
+      videoFrame.appendChild(player);
+      letterContent.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, { once: true });
+  </script>
 </body>
 </html>
